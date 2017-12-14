@@ -17,7 +17,11 @@ let schema = [
 
 class MessageStorage {
 	constructor() {
-		const sqlitePath = path.join(Helper.HOME, "messages.db");
+		if (!Helper.config.sqlite) {
+			return;
+		}
+
+		const sqlitePath = path.join(Helper.getHomePath(), "messages.db");
 
 		this.database = new sqlite3.cached.Database(sqlitePath);
 		this.database.serialize(() => schema.forEach((line) => this.database.run(line)));
@@ -26,6 +30,10 @@ class MessageStorage {
 	}
 
 	index(network, channel, time, type, nick, text) {
+		if (!Helper.config.sqlite) {
+			return;
+		}
+
 		this.database.serialize(() => {
 			this.database.run(
 				"INSERT INTO logs(network, channel, time, type, nick, text) VALUES(?, ?, ?, ?, ?, ?)",
@@ -35,6 +43,10 @@ class MessageStorage {
 	}
 
 	getMessages(network, channel, offset = 0) {
+		if (!Helper.config.sqlite) {
+			return Promise.resolve([]);
+		}
+
 		return new Promise((resolve, reject) => {
 			this.database.all(
 				"SELECT time, type, nick, text FROM logs WHERE network = ? AND channel = ? ORDER BY time DESC LIMIT 100 OFFSET ?",
