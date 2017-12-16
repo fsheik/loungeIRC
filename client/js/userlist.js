@@ -39,6 +39,15 @@ chat.on("input", ".users .search", function() {
 	container.html(templates.user_filtered({matches: result})).show();
 });
 
+chat.on("mouseenter", ".users .user", function() {
+	$(this).addClass("active");
+});
+
+chat.on("mouseleave", ".users .user", function() {
+	// Reset any potential selection
+	$(".users .user").removeClass("active");
+});
+
 exports.handleKeybinds = function(input) {
 	Mousetrap(input.get(0)).bind(["up", "down"], (_e, key) => {
 		const userlists = input.closest(".users");
