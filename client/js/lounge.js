@@ -19,7 +19,6 @@ const utils = require("./utils");
 require("./webpush");
 require("./keybinds");
 require("./clipboard");
-require("./userlist");
 
 $(function() {
 	var sidebar = $("#sidebar, #footer");
