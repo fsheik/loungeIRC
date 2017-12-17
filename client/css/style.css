@@ -1475,6 +1475,20 @@ part/quit messages where we don't load previews (adds a blank line otherwise) */
 	display: inline-block;
 }
 
+.whois {
+	display: grid;
+	grid-template-columns: max-content auto;
+}
+
+.whois dt {
+	min-width: 150px;
+	grid-column-start: 1;
+}
+
+.whois dd {
+	grid-column-start: 2;
+}
+
 #form {
 	background: #eee;
 	border-top: 1px solid #ddd;
